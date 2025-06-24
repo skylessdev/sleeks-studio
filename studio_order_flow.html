@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order - The Studio - Sleeks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .studio-header {
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid #222;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .studio-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 300;
+            font-style: italic;
+            color: #ff3333;
+        }
+
+        .studio-badge {
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid #ff3333;
+            padding: 4px 12px;
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #ff3333;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            border-color: #fff;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .order-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .order-title {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .order-subtitle {
+            font-size: 18px;
+            opacity: 0.7;
+        }
+
+        .order-flow {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .order-main {
+            space-y: 40px;
+        }
+
+        .order-sidebar {
+            space-y: 30px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #222;
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 300;
+        }
+
+        .section-content {
+            padding: 30px;
+        }
+
+        .product-selector {
+            display: grid;
+            gap: 20px;
+        }
+
+        .product-option {
+            border: 1px solid #333;
+            background: rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+        }
+
+        .product-option:hover {
+            border-color: #ff3333;
+        }
+
+        .product-option.selected {
+            border-color: #ff3333;
+            background: rgba(255, 51, 51, 0.05);
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #ff3333;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .product-pricing {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .wholesale-price {
+            font-size: 18px;
+            color: #ff3333;
+            font-weight: 500;
+        }
+
+        .retail-price {
+            font-size: 14px;
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .margin-calculator {
+            font-size: 12px;
+            background: rgba(0, 255, 0, 0.1);
+            color: #0f0;
+            padding: 4px 8px;
+            border-radius: 2px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .quantity-label {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            border-color: #ff3333;
+            color: #ff3333;
+        }
+
+        .quantity-input {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            width: 60px;
+            height: 32px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .quantity-input:focus {
+            outline: none;
+            border-color: #ff3333;
+        }
+
+        .tier-pricing {
+            margin-top: 15px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .tier-pricing span {
+            display: inline-block;
+            margin-right: 15px;
+        }
+
+        .customization-options {
+            margin-top: 30px;
+        }
+
+        .option-group {
+            margin-bottom: 25px;
+        }
+
+        .option-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #333;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .checkbox:checked {
+            background: #ff3333;
+        }
+
+        .co-branding {
+            background: rgba(255, 51, 51, 0.05);
+            border: 1px solid #ff3333;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .co-branding-title {
+            font-size: 16px;
+            color: #ff3333;
+            margin-bottom: 10px;
+        }
+
+        .file-upload {
+            border: 2px dashed #333;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #ff3333;
+        }
+
+        .order-summary {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #222;
+            position: sticky;
+            top: 120px;
+        }
+
+        .summary-header {
+            padding: 25px;
+            border-bottom: 1px solid #222;
+        }
+
+        .summary-content {
+            padding: 25px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .summary-item.total {
+            border-top: 1px solid #333;
+            padding-top: 15px;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .summary-item .price {
+            color: #ff3333;
+        }
+
+        .delivery-info {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid #222;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .delivery-title {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .delivery-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            border: 1px solid #333;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .delivery-option:hover {
+            border-color: #ff3333;
+        }
+
+        .delivery-option.selected {
+            border-color: #ff3333;
+            background: rgba(255, 51, 51, 0.05);
+        }
+
+        .radio {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #333;
+            border-radius: 50%;
+            background: transparent;
+        }
+
+        .radio.selected {
+            background: #ff3333;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            background: #ff3333;
+            color: #000;
+            border: none;
+            padding: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 25px;
+        }
+
+        .place-order-btn:hover {
+            background: #fff;
+        }
+
+        .place-order-btn:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .trust-signals {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #333;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .step-circle.active {
+            background: #ff3333;
+            color: #000;
+        }
+
+        .step-circle.completed {
+            background: #0f0;
+            color: #000;
+        }
+
+        .step-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 16px;
+            left: 32px;
+            right: 32px;
+            height: 1px;
+            background: #333;
+            z-index: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .order-flow {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+            
+            .product-option {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .quantity-selector {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Studio Header -->
+    <header class="studio-header">
+        <div class="header-content">
+            <div class="studio-logo">
+                <div class="logo-text">Sleeks</div>
+                <div class="studio-badge">Studio</div>
+            </div>
+            
+            <button class="back-btn" onclick="goBack()">← Back to Dashboard</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Order Header -->
+        <section class="order-header">
+            <h1 class="order-title">Place Order</h1>
+            <p class="order-subtitle">Curated wholesale for Studio members</p>
+        </section>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="step-circle active">1</div>
+                <div class="step-label">Select</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">2</div>
+                <div class="step-label">Customize</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Review</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">4</div>
+                <div class="step-label">Complete</div>
+            </div>
+        </div>
+
+        <!-- Order Flow -->
+        <div class="order-flow">
+            <!-- Main Order Section -->
+            <div class="order-main">
+                <!-- Product Selection -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Select Products</h2>
+                    </div>
+                    <div class="section-content">
+                        <div class="product-selector">
+                            <!-- Venture Box -->
+                            <div class="product-option" data-product="venture-box">
+                                <div class="product-image">📦</div>
+                                <div class="product-details">
+                                    <h3 class="product-name">Venture Box</h3>
+                                    <p class="product-description">Complete starter kit with display stand, 10 king-size pre-rolls, matches, and premium packaging. Perfect for new venues.</p>
+                                    <div class="product-pricing">
+                                        <span class="wholesale-price">R620</span>
+                                        <span class="retail-price">Retail: R1,999</span>
+                                        <span class="margin-calculator">222% markup</span>
+                                    </div>
+                                    <div class="tier-pricing">
+                                        <span>5+ units: R580 each</span>
+                                        <span>10+ units: R550 each</span>
+                                    </div>
+                                    <div class="quantity-selector">
+                                        <span class="quantity-label">Quantity:</span>
+                                        <div class="quantity-controls">
+                                            <button class="quantity-btn" onclick="changeQuantity('venture-box', -1)">−</button>
+                                            <input type="number" class="quantity-input" value="0" min="0" id="qty-venture-box">
+                                            <button class="quantity-btn" onclick="changeQuantity('venture-box', 1)">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- King Size Collection -->
+                            <div class="product-option" data-product="king-size">
+                                <div class="product-image">🚬</div>
+                                <div class="product-details">
+                                    <h3 class="product-name">King Size Collection</h3>
+                                    <p class="product-description">Premium pre-rolls in signature packaging. Minimum order 20 units. Choose from 3 curated strains.</p>
+                                    <div class="product-pricing">
+                                        <span class="wholesale-price">R45</span>
+                                        <span class="retail-price">Retail: R120</span>
+                                        <span class="margin-calculator">167% markup</span>
+                                    </div>
+                                    <div class="tier-pricing">
+                                        <span>50+ units: R42 each</span>
+                                        <span>100+ units: R38 each</span>
+                                    </div>
+                                    <div class="quantity-selector">
+                                        <span class="quantity-label">Quantity:</span>
+                                        <div class="quantity-controls">
+                                            <button class="quantity-btn" onclick="changeQuantity('king-size', -1)">−</button>
+                                            <input type="number" class="quantity-input" value="0" min="0" id="qty-king-size">
+                                            <button class="quantity-btn" onclick="changeQuantity('king-size', 1)">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Club Display Kit -->
+                            <div class="product-option" data-product="club-kit">
+                                <div class="product-image">🎯</div>
+                                <div class="product-details">
+                                    <h3 class="product-name">Club Display Kit</h3>
+                                    <p class="product-description">Counter display + 20 assorted units + refill program enrollment. Includes co-branding options.</p>
+                                    <div class="product-pricing">
+                                        <span class="wholesale-price">R1,200</span>
+                                        <span class="retail-price">Retail: R3,200</span>
+                                        <span class="margin-calculator">167% markup</span>
+                                    </div>
+                                    <div class="quantity-selector">
+                                        <span class="quantity-label">Quantity:</span>
+                                        <div class="quantity-controls">
+                                            <button class="quantity-btn" onclick="changeQuantity('club-kit', -1)">−</button>
+                                            <input type="number" class="quantity-input" value="0" min="0" id="qty-club-kit">
+                                            <button class="quantity-btn" onclick="changeQuantity('club-kit', 1)">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Customization Options -->
+                        <div class="customization-options" id="customization" style="display: none;">
+                            <h3 style="margin-bottom: 20px;">Customization Options</h3>
+                            
+                            <div class="option-group">
+                                <label class="option-label">Add-ons (+R150 each)</label>
+                                <div class="checkbox-group">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" class="checkbox" id="matches">
+                                        <label for="matches">Premium Matches Set</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" class="checkbox" id="ashtray">
+                                        <label for="ashtray">Branded Crystal Ashtray</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" class="checkbox" id="grinder">
+                                        <label for="grinder">Sleeks Grinder</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Co-branding Section -->
+                            <div class="co-branding">
+                                <div class="co-branding-title">Co-branding Available (+R200 setup)</div>
+                                <p style="font-size: 14px; margin-bottom: 15px; opacity: 0.8;">
+                                    Add your venue logo to packaging. Minimum 50 units.
+                                </p>
+                                <div class="file-upload" onclick="document.getElementById('logo-upload').click()">
+                                    <p>Click to upload your logo</p>
+                                    <p style="font-size: 12px; opacity: 0.6; margin-top: 5px;">PNG, SVG, or AI format preferred</p>
+                                    <input type="file" id="logo-upload" style="display: none;" accept=".png,.svg,.ai">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Sidebar -->
+            <div class="order-sidebar">
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-header">
+                        <h3 class="section-title">Order Summary</h3>
+                    </div>
+                    <div class="summary-content">
+                        <div id="summary-items">
+                            <p style="opacity: 0.6; text-align: center;">Select products to see summary</p>
+                        </div>
+                        
+                        <div class="summary-item total" id="total-line" style="display: none;">
+                            <span>Total</span>
+                            <span class="price" id="total-amount">R0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Info -->
+                <div class="delivery-info">
+                    <h4 class="delivery-title">Delivery Options</h4>
+                    <div class="delivery-options">
+                        <div class="delivery-option selected" data-delivery="standard">
+                            <div class="radio selected"></div>
+                            <div>
+                                <div>Standard Delivery</div>
+                                <div style="font-size: 12px; opacity: 0.6;">3-5 business days • Free</div>
+                            </div>
+                        </div>
+                        <div class="delivery-option" data-delivery="express">
+                            <div class="radio"></div>
+                            <div>
+                                <div>Express Delivery</div>
+                                <div style="font-size: 12px; opacity: 0.6;">1-2 business days • +R250</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Place Order Button -->
+                <button class="place-order-btn" id="place-order-btn" disabled onclick="placeOrder()">
+                    Select Products to Continue
+                </button>
+
+                <!-- Trust Signals -->
+                <div class="trust-signals">
+                    <p>🔒 Secure Studio-only pricing</p>
+                    <p>📦 Discreet packaging guaranteed</p>
+                    <p>🚛 Track your order in real-time</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let cart = {};
+        let total = 0;
+
+        const products = {
+            'venture-box': { name: 'Venture Box', price: 620, retail: 1999 },
+            'king-size': { name: 'King Size Collection', price: 45, retail: 120 },
+            'club-kit': { name: 'Club Display Kit', price: 1200, retail: 3200 }
+        };
+
+        function changeQuantity(productId, change) {
+            const input = document.getElementById(`qty-${productId}`);
+            let newValue = Math.max(0, parseInt(input.value) + change);
+            input.value = newValue;
+            updateCart(productId, newValue);
+        }
+
+        function updateCart(productId, quantity) {
+            if (quantity > 0) {
+                cart[productId] = quantity;
+            } else {
+                delete cart[productId];
+            }
+            
+            updateOrderSummary();
+            toggleCustomization();
+            updatePlaceOrderButton();
+        }
+
+        function updateOrderSummary() {
+            const summaryItems = document.getElementById('summary-items');
+            const totalLine = document.getElementById('total-line');
+            const totalAmount = document.getElementById('total-amount');
+            
+            if (Object.keys(cart).length === 0) {
+                summaryItems.innerHTML = '<p style="opacity: 0.6; text-align: center;">Select products to see summary</p>';
+                totalLine.style.display = 'none';
+                total = 0;
+                return;
+            }
+            
+            let html = '';
+            total = 0;
+            
+            for (const [productId, quantity] of Object.entries(cart)) {
+                const product = products[productId];
+                const lineTotal = product.price * quantity;
+                total += lineTotal;
+                
+                html += `
+                    <div class="summary-item">
+                        <span>${product.name} (${quantity})</span>
+                        <span class="price">R${lineTotal.toLocaleString()}</span>
+                    </div>
+                `;
+            }
+            
+            summaryItems.innerHTML = html;
+            totalAmount.textContent = `R${total.toLocaleString()}`;
+            totalLine.style.display = 'flex';
+        }
+
+        function toggleCustomization() {
+            const customization = document.getElementById('customization');
+            const hasItems = Object.keys(cart).length > 0;
+            customization.style.display = hasItems ? 'block' : 'none';
+        }
+
+        function updatePlaceOrderButton() {
+            const btn = document.getElementById('place-order-btn');
+            const hasItems = Object.keys(cart).length > 0;
+            
+            if (hasItems) {
+                btn.disabled = false;
+                btn.textContent = `Place Order • R${total.toLocaleString()}`;
+            } else {
+                btn.disabled = true;
+                btn.textContent = 'Select Products to Continue';
+            }
+        }
+
+        function placeOrder() {
+            if (Object.keys(cart).length === 0) return;
+            
+            // Simulate order placement
+            const btn = document.getElementById('place-order-btn');
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                alert(`Order placed successfully!\n\nOrder #SLK-${Date.now().toString().slice(-6)}\nTotal: R${total.toLocaleString()}\n\nYou'll receive tracking info within 24 hours.`);
+                
+                // Reset form
+                Object.keys(cart).forEach(productId => {
+                    document.getElementById(`qty-${productId}`).value = 0;
+                });
+                cart = {};
+                updateOrderSummary();
+                toggleCustomization();
+                updatePlaceOrderButton();
+            }, 2000);
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Delivery option selection
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.delivery-option')) {
+                document.querySelectorAll('.delivery-option').forEach(option => {
+                    option.classList.remove('selected');
+                    option.querySelector('.radio').classList.remove('selected');
+                });
+                
+                const option = e.target.closest('.delivery-option');
+                option.classList.add('selected');
+                option.querySelector('.radio').classList.add('selected');
+            }
+        });
+
+        // Quantity input direct changes
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('quantity-input')) {
+                const productId = e.target.id.replace('qty-', '');
+                const quantity = Math.max(0, parseInt(e.target.value) || 0);
+                e.target.value = quantity;
+                updateCart(productId, quantity);
+            }
+        });
+
+        // File upload handling
+        document.getElementById('logo-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const upload = document.querySelector('.file-upload');
+                upload.innerHTML = `
+                    <p>✓ ${file.name}</p>
+                    <p style="font-size: 12px; opacity: 0.6; margin-top: 5px;">Click to change file</p>
+                `;
+                upload.style.borderColor = '#ff3333';
+            }
+        });
+    </script>
+</body>
+</html>

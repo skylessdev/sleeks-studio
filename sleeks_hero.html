@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleeks - Aspire Higher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="0.5" fill="%23ff3333" opacity="0.1"/><circle cx="80" cy="40" r="0.3" fill="%23ff3333" opacity="0.08"/><circle cx="40" cy="80" r="0.4" fill="%23ff3333" opacity="0.06"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.8);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 300;
+            font-style: italic;
+            color: #ff3333;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #ff3333;
+        }
+
+        .studio-access {
+            background: #ff3333;
+            color: #000;
+            padding: 8px 16px;
+            border: none;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .studio-access:hover {
+            background: #fff;
+            transform: translateY(-1px);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(60px, 12vw, 180px);
+            font-weight: 300;
+            font-style: italic;
+            color: #ff3333;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .drop-timer {
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid #ff3333;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 400px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .timer-label {
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+
+        .timer-display {
+            font-size: 36px;
+            font-weight: 300;
+            color: #ff3333;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-date {
+            font-size: 14px;
+            opacity: 0.6;
+            letter-spacing: 1px;
+        }
+
+        .inventory-status {
+            margin-top: 30px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .status-text {
+            font-size: 14px;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        .sold-out {
+            display: inline-block;
+            background: #ff3333;
+            color: #000;
+            padding: 4px 12px;
+            margin-left: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .waitlist-btn {
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 15px 30px;
+            margin-top: 30px;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .waitlist-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .hero-footer {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .tagline {
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 20px;
+        }
+
+        .scroll-hint {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent, #ff3333, transparent);
+            margin: 0 auto;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 15px 20px;
+            }
+            
+            .nav-right {
+                gap: 20px;
+            }
+            
+            .hero-subtitle {
+                font-size: 14px;
+                letter-spacing: 2px;
+            }
+            
+            .drop-timer {
+                padding: 20px;
+                margin: 30px 20px;
+            }
+            
+            .timer-display {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo">Sleeks</div>
+        <div class="nav-right">
+            <a href="#" class="nav-link">Drops</a>
+            <a href="#" class="nav-link">About</a>
+            <a href="#" class="nav-link">Community</a>
+            <button class="studio-access">Studio Access</button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">Sleeks</h1>
+            <p class="hero-subtitle">Aspire Higher</p>
+            
+            <div class="drop-timer">
+                <div class="timer-label">Next Drop</div>
+                <div class="timer-display" id="countdown">04:20:00</div>
+                <div class="timer-date">Friday, June 28</div>
+            </div>
+            
+            <div class="inventory-status">
+                <span class="status-text">Venture Box Collection</span>
+                <span class="sold-out">Sold Out</span>
+            </div>
+            
+            <button class="waitlist-btn">Join Waitlist</button>
+        </div>
+        
+        <div class="hero-footer">
+            <div class="tagline">Not a dispensary. A vibe dispenser.</div>
+            <div class="scroll-hint"></div>
+        </div>
+    </section>
+
+    <script>
+        // Countdown timer functionality
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const now = new Date().getTime();
+            const friday420 = new Date();
+            friday420.setDate(friday420.getDate() + (5 - friday420.getDay() + 7) % 7);
+            friday420.setHours(16, 20, 0, 0);
+            
+            const distance = friday420 - now;
+            
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            countdownElement.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Studio Access modal functionality
+        document.querySelector('.studio-access').addEventListener('click', function() {
+            alert('Studio access requires invitation or purchase history. Check your email for access codes.');
+        });
+
+        // Waitlist functionality
+        document.querySelector('.waitlist-btn').addEventListener('click', function() {
+            alert('Added to waitlist. You\'ll be notified 24 hours before the next drop.');
+        });
+    </script>
+</body>
+</html>
